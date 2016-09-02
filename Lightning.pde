@@ -1,119 +1,46 @@
-// int startY = 0;
-// int startX = (int)(Math.random()*600);
-// int endY = 150;
-// int endX = 0;
+LightningBolt l1, l2, l3, l4;
 
-// int startY2 = 0;
-// int startX2 = (int)(Math.random()*600);
-// int endY2 = 150;
-// int endX2 = 0;
-
-// int startY3 = 0;
-// int startX3 = (int)(Math.random()*600);
-// int endY3 = 150;
-// int endX3 = 0;
-
-// int personCenterX = 300;
-// int personCenterY = 550;
-
-Lightning l1;
+PersonAttacked p1;
 
 void setup(){
 
 	size(600,600);
     strokeWeight(4);
     background(0);
-    l1 = new Lightning((int)(Math.random()*600),0,150,0);
+
+    //lightning bolts:
+    l1 = new LightningBolt((int)(Math.random()*600),0,150,0);
+    l2 = new LightningBolt((int)(Math.random()*600),0,150,0);
+    l3 = new LightningBolt((int)(Math.random()*600),0,150,0);
+    l4 = new LightningBolt((int)(Math.random()*600),0,150,0);
+
+    //person
+    p1 = new PersonAttacked((int)(Math.random()*600), 50);
 }
 
 void draw(){
-	
-	// stroke((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
-	
-	// while (endY<= 700){
-	// 	endX = startX + (int)(Math.random()*18) - 9;
-	// 	endY = startY + (int)(Math.random()*9);
-	// 	line(startX, startY, endX, endY);
-	// 	startX = endX;
-	// 	startY = endY;
-
-	// 	endX2 = startX2 + (int)(Math.random()*18) - 9;
-	// 	endY2 = startY2 + (int)(Math.random()*9);
-	// 	line(startX2, startY2, endX2, endY2);
-	// 	startX2 = endX2;
-	// 	startY2 = endY2;
-
-	// 	endX3 = startX3 + (int)(Math.random()*18) - 9;
-	// 	endY3 = startY3 + (int)(Math.random()*9);
-	// 	line(startX3, startY3, endX3, endY3);
-	// 	startX3 = endX3;
-	// 	startY3 = endY3;
-
-	// 	ellipse(personCenterX, personCenterY, 100, 100);
-
-
-
-	// }
-
 	l1.show();
+	l2.show();
+	l3.show();
+	l4.show();
+
+	p1.show();
 }
-// void mousePressed(){
-// 	stroke(255,255,255);
-// 	fill(255, 255, 255, 100);
-// 	rect(0, 0, 600, 600);
-// }
-
-// void keyPressed() {
-//   if (key == CODED) {
-//     if (keyCode == LEFT) {
-//         startY = 0;
-// 		startX = (int)(Math.random()*600);
-// 		endY = 150;
-// 		endX = 0;
-
-// 		startY2 = 0;
-// 		startX2 = (int)(Math.random()*600);
-// 		endY2 = 150;
-// 		endX2 = 0;
-
-// 		startY3 = 0;
-// 		startX3 = (int)(Math.random()*600);
-// 		endY3 = 150;
-// 		endX3 = 0;
-// 		background(0);
-// 		personCenterX -= 5;
-		
-//     } else if (keyCode == RIGHT) {
-//   		startY = 0;
-// 		startX = (int)(Math.random()*600);
-// 		endY = 150;
-// 		endX = 0;
-
-// 		startY2 = 0;
-// 		startX2 = (int)(Math.random()*600);
-// 		endY2 = 150;
-// 		endX2 = 0;
-
-// 		startY3 = 0;
-// 		startX3 = (int)(Math.random()*600);
-// 		endY3 = 150;
-// 		endX3 = 0;
-// 		background(0);
-//     } 
-//   } else {
-    
-//   }
-// }
 
 void keyPressed(){
 	l1.reapear();
+	l2.reapear();
+	l3.reapear();
+	l4.reapear();
+
+	p1.move();
 }
 
-class Lightning{
+class LightningBolt{
 
 	int starttX, starttY, enddX, enddY;
 
-	Lightning(int x1, int y1, int x2, int y2){
+	LightningBolt(int x1, int y1, int x2, int y2){
 		starttX = x1;
 		starttY = y1;
 		enddX = x2;
@@ -121,7 +48,10 @@ class Lightning{
 	}
 
 	void show(){
-		stroke((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+
+		int[] colorsLightning = {color(153, 153, 153), color(230, 230, 230), color(179, 179, 0), color(255, 255, 51)};
+
+		stroke(colorsLightning[(int)(Math.random()*colorsLightning.length)]);
 		while (enddY <= 700){
 			enddX = starttX + (int)(Math.random()*18) - 9;
 			enddY = starttY + (int)(Math.random()*9);
@@ -154,4 +84,35 @@ class Lightning{
 		}
 	}
 	
+}
+
+class PersonAttacked{
+
+	int beginX, beginY, sizePerson;
+
+	PersonAttacked(int x, int sizeP){
+		beginX = x;
+		sizePerson = sizeP;
+		beginY = 600 - (sizePerson/2);
+	}
+
+	void show(){
+		fill(77, 77, 255);
+		stroke(77, 77, 255);
+		ellipse(beginX, beginY, sizePerson, sizePerson);
+	}
+
+	void move(){
+		if (key == CODED) {
+		    if (keyCode == LEFT) {
+		        beginX -= 5;
+				
+		    } else if (keyCode == RIGHT) {
+		  		beginX += 5;
+
+		    } 
+		} else {
+		    
+		}
+	}
 }
